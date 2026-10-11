@@ -1,7 +1,7 @@
 # Feature — Products catalog
 
 - **Owner:** Juan Camilo Bernal Gordillo
-- **Status:** Planned
+- **Status:** In progress
 - **Related stories:** N/A. The requirements come from the exam statement (Parcial práctico C2) and from `TODO.md`.
 
 ---

@@ -33,7 +33,7 @@ as the rules of the API (see [`product-entity.md`](../api/product-entity.md)).
 | Field | Rule | Message |
 |-------|------|---------|
 | `name` | Required. A text with only spaces counts as empty. | "El nombre es obligatorio." |
-| `name` | Maximum 60 characters. | "El nombre debe tener máximo 60 caracteres." |
+| `name` | Maximum 60 characters, counted without the spaces at the start and at the end. | "El nombre debe tener máximo 60 caracteres." |
 | `price` | A number greater than 0. An empty field is not valid. | "El precio debe ser un número mayor que 0." |
 | `category` | Required, and one of the four categories. | "Seleccione una categoría." |
 | `stock` | An integer greater than or equal to 0. An empty field is not valid. | "El stock debe ser un número entero mayor o igual que 0." |

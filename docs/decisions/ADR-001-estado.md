@@ -29,7 +29,9 @@ in a different way and the code would be harder to read and to explain.
 ## Decision
 
 **We decided:** to keep the state local in each page, with `useState` for the values and
-`useEffect` to load the data when the screen opens.
+`useEffect` to load the data when the screen opens. Ionic keeps a page in memory when the user
+goes to another screen, so the pages also use `useIonViewWillEnter` (the starter list already
+does it) to load the data again when the user comes back.
 
 **Justification:**
 The three screens follow the same pattern, so there is one way to do it in the whole app:
@@ -54,7 +56,7 @@ screens copy that pattern.
 
 | Alternative | Pros | Cons | Reason for discarding |
 |-------------|------|------|-----------------------|
-| Local state in each page with `useState` and `useEffect` (chosen) | Simple and seen in class. No extra library. The starter list already uses it. | The loading code is repeated in the three pages. The state is lost when the user leaves the screen. | — (chosen) |
+| Local state in each page with `useState` and `useEffect` (chosen) | Simple and seen in class. No extra library. The starter list already uses it. | The loading code is repeated in the three pages. The state belongs to one page, so another screen cannot use it. | — (chosen) |
 | A custom hook per screen (for example `useProducts`) | Shorter pages. The loading logic can be reused and tested alone. | More files and one more level to follow for three small screens. | Not needed for this size. It is the first step if the app grows. |
 | A global store (Redux, Zustand or Context) | One place for the state. The screens can share data. | A new library and new concepts that were not seen in class. More code to write. | Too much for this scope: no screen shares state with another. |
 
