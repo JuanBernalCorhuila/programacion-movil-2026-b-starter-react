@@ -6,8 +6,8 @@
  * (regla de dependencias del framework: el dominio no depende de nada de afuera).
  *
  * Los tipos, las constantes y `formatCOP` ya vienen dados. Las tres funciones
- * `toProductView`, `validateProduct` y `filterProducts` son STUBS: se implementan
- * en la Parte 3 del TODO.md.
+ * `toProductView`, `validateProduct` y `filterProducts` se implementaron en la
+ * Parte 3 del TODO.md, según el contrato de cada una.
  */
 
 /** Producto tal como lo entrega la API. */
@@ -86,20 +86,28 @@ export function formatCOP(value: number): string {
  *  - `priceLabel`: el precio con `formatCOP` (p. ej. 1250000 → "$ 1.250.000").
  *  - `stockLabel`: «Agotado» si stock = 0 · «Pocas unidades» si stock < LOW_STOCK_THRESHOLD · «Disponible» en otro caso.
  *  - `isOutOfStock` e `isLowStock` coherentes con la etiqueta; `id`, `category` y `stock` pasan sin cambios.
- *
- * TODO(Parte 3): implementar (hoy devuelve valores de relleno).
  */
 export function toProductView(product: Product): ProductView {
-  // TODO(Parte 3): reemplazar este relleno por la implementación real.
+  const isOutOfStock = product.stock === 0;
+  const isLowStock = product.stock > 0 && product.stock < LOW_STOCK_THRESHOLD;
+
+  // The label follows the two booleans, so the three values always agree.
+  let stockLabel = 'Disponible';
+  if (isOutOfStock) {
+    stockLabel = 'Agotado';
+  } else if (isLowStock) {
+    stockLabel = 'Pocas unidades';
+  }
+
   return {
     id: product.id,
-    name: product.name,
-    priceLabel: '',
+    name: product.name.trim(),
+    priceLabel: formatCOP(product.price),
     category: product.category,
     stock: product.stock,
-    stockLabel: '',
-    isLowStock: false,
-    isOutOfStock: false,
+    stockLabel,
+    isLowStock,
+    isOutOfStock,
   };
 }
 
@@ -112,13 +120,32 @@ export function toProductView(product: Product): ProductView {
  *  - `category`: obligatoria y una de CATEGORIES.
  *  - `stock`: entero mayor o igual que 0.
  *  - `errors` trae un mensaje por cada campo inválido; `isValid` es true solo si no hay errores.
- *
- * TODO(Parte 3): implementar (hoy da por válido cualquier dato).
  */
 export function validateProduct(input: ProductInput): ValidationResult {
-  // TODO(Parte 3): validar `input` y devolver los errores por campo.
-  void input;
-  return { isValid: true, errors: {} };
+  const errors: Partial<Record<ProductField, string>> = {};
+
+  // The length is counted without the spaces at the start and at the end, like the API does.
+  const name = input.name.trim();
+  if (name === '') {
+    errors.name = 'El nombre es obligatorio.';
+  } else if (name.length > NAME_MAX_LENGTH) {
+    errors.name = `El nombre debe tener máximo ${NAME_MAX_LENGTH} caracteres.`;
+  }
+
+  // Number.isFinite is false for NaN, which is the value of an empty number field.
+  if (!Number.isFinite(input.price) || input.price <= 0) {
+    errors.price = 'El precio debe ser un número mayor que 0.';
+  }
+
+  if (!CATEGORIES.some((category) => category === input.category)) {
+    errors.category = 'Seleccione una categoría.';
+  }
+
+  if (!Number.isInteger(input.stock) || input.stock < 0) {
+    errors.stock = 'El stock debe ser un número entero mayor o igual que 0.';
+  }
+
+  return { isValid: Object.keys(errors).length === 0, errors };
 }
 
 /**
@@ -129,11 +156,14 @@ export function validateProduct(input: ProductInput): ValidationResult {
  *    (un texto vacío o de espacios no filtra).
  *  - `category`: conserva solo los de esa categoría exacta (vacío = todas).
  *  - Devuelve un arreglo nuevo; no modifica el original.
- *
- * TODO(Parte 3): implementar (hoy devuelve la lista sin filtrar).
  */
 export function filterProducts(products: Product[], filters: ProductFilters): Product[] {
-  // TODO(Parte 3): aplicar `filters.search` y `filters.category`.
-  void filters;
-  return products;
+  const text = filters.search.trim().toLowerCase();
+
+  // `filter` returns a new array, so the original list is not changed.
+  return products.filter((product) => {
+    const matchesSearch = text === '' || product.name.toLowerCase().includes(text);
+    const matchesCategory = filters.category === '' || product.category === filters.category;
+    return matchesSearch && matchesCategory;
+  });
 }
