@@ -50,7 +50,7 @@ the app, with `validateProduct`, before the form sends the data (see
 |-------|-------|-------------|
 | 0 | "Agotado" | `danger` |
 | From 1 to 4 (less than `LOW_STOCK_THRESHOLD`) | "Pocas unidades" | `warning` |
-| 5 or more | "Disponible" | Not highlighted |
+| 5 or more | "Disponible" | `medium`, a neutral gray, so it is not highlighted |
 
 The price is shown with `formatCOP`, for example `1250000` becomes "$ 1.250.000".
 
