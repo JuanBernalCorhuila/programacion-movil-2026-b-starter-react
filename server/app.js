@@ -39,6 +39,19 @@ function parseId(rawId) {
   return /^\d+$/.test(rawId) ? Number(rawId) : null;
 }
 
+// Answers 400 when the :id of the route is not numeric.
+function sendInvalidId(res) {
+  return res.status(400).json({ error: 'Id inválido', details: ['El id debe ser numérico'] });
+}
+
+// Answers 404 when no product has that id.
+function sendNotFound(res, id) {
+  return res.status(404).json({
+    error: 'Producto no encontrado',
+    details: [`No existe un producto con id ${id}`],
+  });
+}
+
 function createApp() {
   const app = express();
 
@@ -49,21 +62,42 @@ function createApp() {
   // Almacenamiento en memoria: copia de la semilla (se reinicia con el servidor).
   // TODO(Parte 2): úselo en las rutas de abajo y lleve la cuenta del siguiente id.
   const products = seedProducts.map((item) => ({ ...item }));
-  void products;
   void CATEGORIES;
-  void parseId;
 
   const notImplemented = (_req, res) => {
     res.status(501).json({ error: 'Not implemented' });
   };
 
-  // TODO(Parte 2): GET /api/products con filtros. Los parámetros llegan en `req.query`:
-  //   const { search, category } = req.query;
-  //   `search`: el nombre contiene el texto, sin distinguir mayúsculas (toLowerCase + includes).
-  //   `category`: igual a la categoría (exacta). Use `.filter` sobre el arreglo.
-  app.get('/api/products', notImplemented);
-  // TODO(Parte 2): GET /api/products/:id → 200 | 400 (parseId devuelve null) | 404 (no existe).
-  app.get('/api/products/:id', notImplemented);
+  // GET /api/products: the list, with two optional filters that arrive in `req.query`.
+  app.get('/api/products', (req, res) => {
+    const { search, category } = req.query;
+    let result = products;
+
+    // search: the name contains the text, without case sensitivity. An empty text does not filter.
+    if (typeof search === 'string' && search.trim() !== '') {
+      const text = search.trim().toLowerCase();
+      result = result.filter((product) => product.name.toLowerCase().includes(text));
+    }
+
+    // category: exact match. An empty value does not filter.
+    if (typeof category === 'string' && category !== '') {
+      result = result.filter((product) => product.category === category);
+    }
+
+    res.json(result);
+  });
+
+  // GET /api/products/:id: one product. 400 if the id is not numeric, 404 if it does not exist.
+  app.get('/api/products/:id', (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) return sendInvalidId(res);
+
+    const product = products.find((item) => item.id === id);
+    if (!product) return sendNotFound(res, id);
+
+    return res.json(product);
+  });
+
   // TODO(Parte 2): POST /api/products → 201 con el producto creado | 400 con { error, details[] }.
   //   Patrón de validación:  const details = [];  if (...) details.push('mensaje');
   app.post('/api/products', notImplemented);
