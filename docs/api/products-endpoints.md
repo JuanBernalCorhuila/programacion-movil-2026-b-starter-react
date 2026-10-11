@@ -86,7 +86,7 @@ Returns the list of products. It accepts two optional filters that can be used t
 
 | Param | In | Type | Required | Notes |
 |-------|----|------|----------|-------|
-| `search` | query | string | No | Keeps the products whose name contains the text, without case sensitivity. An empty value does not filter. |
+| `search` | query | string | No | Keeps the products whose name contains the text, without case sensitivity. An empty value, or a text with only spaces, does not filter. |
 | `category` | query | string | No | Keeps the products of that exact category. An empty value does not filter. |
 
 **Body (if any):** None.
