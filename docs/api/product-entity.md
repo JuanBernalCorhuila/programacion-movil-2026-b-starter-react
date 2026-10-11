@@ -46,16 +46,34 @@ the app, with `validateProduct`, before the form sends the data (see
 
 **Stock label.** `toProductView` calculates the label from `stock`:
 
-| Stock | Label |
-|-------|-------|
-| 0 | "Agotado" |
-| From 1 to 4 (less than `LOW_STOCK_THRESHOLD`) | "Pocas unidades" |
-| 5 or more | "Disponible" |
+| Stock | Label | Ionic color |
+|-------|-------|-------------|
+| 0 | "Agotado" | `danger` |
+| From 1 to 4 (less than `LOW_STOCK_THRESHOLD`) | "Pocas unidades" | `warning` |
+| 5 or more | "Disponible" | Not highlighted |
 
 The price is shown with `formatCOP`, for example `1250000` becomes "$ 1.250.000".
 
-In the API and in the app the `stock` is never `null`. Only the Kotlin exercise
-(`kotlin/Product.kt`) has a `stock` that admits `null`, and in that case the label is "Sin dato".
+**Kotlin model** (`kotlin/Product.kt`). The Kotlin exercise is separate from the app and uses
+only what was seen in week 7. Its `Product` class has the same five fields:
+
+| Field | Type | `val` / `var` | Reason |
+|-------|------|---------------|--------|
+| `id` | `Int` | `val` | The identifier never changes. |
+| `name` | `String` | `val` | It does not change in the exercise. |
+| `price` | `Double` | `var` | The price of a product can change. |
+| `category` | `String` | `val` | It does not change in the exercise. |
+| `stock` | `Int?` | `var` | The stock changes, and it admits `null` when there is no data. |
+
+- `stockLabel(stock: Int?): String` gives "Sin dato" when the stock is `null`, and the same
+  labels of the app in the other cases ("Agotado", "Pocas unidades" or "Disponible").
+- `applyDiscount(price: Double, percent: Int): Double` returns the price minus the discount:
+  `price - price * percent / 100`. For example, `10000.0` with 15 % gives `8500.0`.
+- `main()` prints three products (one with `null` stock and one out of stock) with the name,
+  the stock label and the price with a 10 % discount.
+
+In the API and in the app the `stock` is never `null`. Only the Kotlin exercise has a `stock`
+that admits `null`.
 
 ---
 

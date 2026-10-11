@@ -21,7 +21,7 @@ category, opens the detail of one product and goes to the form to create a new o
 | Header | `IonHeader`, `IonToolbar`, `IonTitle` | Title "Productos". |
 | Search | `IonInput` | Text field with the label "Buscar". It filters by product name. |
 | Category filter | Five `IonButton` | "Todas", "Bebidas", "Snacks", "Aseo" and "Hogar". The selected button looks different from the others. |
-| Body | `IonList` with one `ProductCard` per product, or `EmptyState` | Each card shows the name, the category, the price in Colombian pesos and the stock label. The stock label is highlighted when the product is out of stock or has few units. |
+| Body | `IonList` with one `ProductCard` per product, or `EmptyState` | Each card shows the name, the category, the price in Colombian pesos and the stock label. The stock label is highlighted when the product is out of stock or has few units: it uses the Ionic color `danger` for "Agotado" and `warning` for "Pocas unidades". |
 | Footer / CTA | `IonButton` | "Nuevo producto". It goes to `/productos/nuevo`. |
 
 The search and the category filter are visible when `status` is `'ready'`. The "Nuevo producto"

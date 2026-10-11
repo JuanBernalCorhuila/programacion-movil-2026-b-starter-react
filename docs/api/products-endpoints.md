@@ -57,8 +57,10 @@ of them and answers 400 with the error "Datos inválidos" and one message for ea
 | `category` | One of "Bebidas", "Snacks", "Aseo" or "Hogar". | "category debe ser una de: Bebidas, Snacks, Aseo, Hogar" |
 | `stock` | An integer greater than or equal to 0. | "stock debe ser un entero mayor o igual que 0" |
 
-The API saves the name without the spaces at the start and at the end. Other fields of the body
-are ignored, including `id`.
+The API saves the name without the spaces at the start and at the end, and the 60 characters
+are counted without those spaces. Other fields of the body are ignored, including `id`. If the
+request has no body, the API treats it as an empty object, so the four fields fail the
+validation.
 
 **Errors that the starter already handles.** They also use the error format:
 

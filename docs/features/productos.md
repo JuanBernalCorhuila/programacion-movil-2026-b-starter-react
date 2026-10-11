@@ -30,6 +30,11 @@ are three screen specs:
 - [`product-detail.md`](../screens/product-detail.md)
 - [`product-form.md`](../screens/product-form.md)
 
+**Styles.** The screens use only Ionic components, their `color` property and the Ionic utility
+classes (for example `ion-padding`). No color or size is written by hand, so the feature has no
+CSS file of its own. If a component needs its own styles later, they go in a separate `.css`
+file next to the component, never mixed with the component code.
+
 ---
 
 ## State
@@ -103,10 +108,17 @@ The list asks the API for all the products once and then filters them in memory 
 
 ## Tests
 
-- Unit: `validateProduct`, `toProductView` and `filterProducts`, in
-  `__tests__/product.test.ts`.
+- Unit: the three domain functions, in `__tests__/product.test.ts`. At least these tests:
+  - `validateProduct` rejects an empty name, a price that is 0 or less and a category that is
+    not allowed.
+  - `toProductView` formats the price in pesos and gives the labels "Agotado" and "Pocas
+    unidades".
+  - `filterProducts` filters by text without case sensitivity and by exact category.
 - Widget/UI: N/A. The exam does not ask for screen tests; the screens are checked by hand
   against the running API.
-- Integration/E2E: API tests with `startTestServer()` in `__tests__/products-api.test.ts`: a
-  `POST` with invalid data answers 400 with `{ error, details }`, and a `GET` of an id that
-  does not exist answers 404.
+- Integration/E2E: API tests with `startTestServer()` in `__tests__/products-api.test.ts`. At
+  least these tests:
+  - A `POST` with invalid data answers 400 with `{ error, details }`.
+  - A `GET` of an id that does not exist answers 404.
+  - A `PATCH /api/products/1` answers 404 with "Ruta no encontrada". The API does not offer
+    that method, so the request reaches the 404 handler that comes with the starter.
