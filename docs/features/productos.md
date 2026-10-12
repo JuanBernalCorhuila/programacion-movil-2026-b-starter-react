@@ -30,6 +30,11 @@ are three screen specs:
 - [`product-detail.md`](../screens/product-detail.md)
 - [`product-form.md`](../screens/product-form.md)
 
+**Shared components.** They live in `presentation/` and only show the data they receive:
+`EmptyState` (given by the starter) for the empty, no results and error states; `ProductCard`
+for each product of the list; and `StockBadge` for the stock label with its color, used by the
+card and by the detail, so the colors are defined in one place.
+
 **Styles.** The screens use only Ionic components, their `color` property and the Ionic utility
 classes (for example `ion-padding`). No color or size is written by hand, so the feature has no
 CSS file of its own. If a component needs its own styles later, they go in a separate `.css`

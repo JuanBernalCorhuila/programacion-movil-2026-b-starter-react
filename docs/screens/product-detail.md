@@ -19,7 +19,7 @@ a simple confirmation.
 | Region | Component | Notes |
 |--------|-----------|-------|
 | Header | `IonHeader`, `IonToolbar`, `IonBackButton`, `IonTitle` | Title "Detalle del producto". The back button goes to `/productos`. |
-| Body | `IonList` with one `IonItem` per field, or `EmptyState` | Shows the name, the category, the price in Colombian pesos, the stock and the stock label. The stock label is highlighted when the product is out of stock or has few units: it uses the Ionic color `danger` for "Agotado" and `warning` for "Pocas unidades". |
+| Body | `IonList` with one `IonItem` per field, or `EmptyState` | Shows the name, the category, the price in Colombian pesos, the stock and the stock label. The stock label is a `StockBadge`, highlighted when the product is out of stock or has few units: it uses the Ionic color `danger` for "Agotado" and `warning` for "Pocas unidades". |
 | Delete confirmation | Text and two `IonButton` | Visible only when `isConfirmingDelete` is true. Text "¿Eliminar este producto?" with the buttons "Confirmar" and "Cancelar". |
 | Footer / CTA | Two `IonButton` | "Editar" and "Eliminar". Visible only when the product is loaded. |
 
