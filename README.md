@@ -10,6 +10,16 @@ Este repositorio es el punto de partida. El proyecto tiene tres piezas que se co
 
 Además, la **documentación** (`docs/`) se escribe antes del código, a partir de las plantillas del framework.
 
+## Documentación
+
+Los documentos del proyecto están en `docs/` y describen lo que hace el código:
+
+- Funcionalidad: [`features/productos.md`](./docs/features/productos.md)
+- Pantallas: [`product-list.md`](./docs/screens/product-list.md), [`product-detail.md`](./docs/screens/product-detail.md) y [`product-form.md`](./docs/screens/product-form.md)
+- Decisiones: [`ADR-001-estado.md`](./docs/decisions/ADR-001-estado.md) y [`ADR-002-consumo-api.md`](./docs/decisions/ADR-002-consumo-api.md)
+- API: [`products-endpoints.md`](./docs/api/products-endpoints.md) y [`product-entity.md`](./docs/api/product-entity.md)
+- Checklist de entrega: [`definition-of-done.md`](./docs/definition-of-done.md)
+
 > El enunciado oficial es el PDF de la actividad en Moodle. Este README es un resumen; si algo difiere, manda el PDF.
 
 ## Cómo ejecutar
@@ -27,9 +37,11 @@ npm run build      # revisión de tipos y compilación para producción
 
 La app y la API se ejecutan al mismo tiempo, cada una en su terminal. La app lee la dirección de la API de la variable `VITE_API_URL`: copie `.env.example` como `.env` si necesita cambiarla. El archivo `.env` está ignorado por Git; nunca se versiona.
 
-Rutas de la app, ya creadas como pantallas esqueleto: `/productos` (lista), `/productos/nuevo`, `/productos/:id` (detalle) y `/productos/:id/editar`.
+Rutas de la app: `/productos` (lista), `/productos/nuevo`, `/productos/:id` (detalle) y `/productos/:id/editar`.
 
-Hoy la API responde `501 Not implemented` en cada ruta de `/api/products`, y las pantallas muestran un `TODO`. Construir esa funcionalidad es el trabajo del parcial.
+La API implementa las cinco rutas de `/api/products`, y la app permite listar, buscar, filtrar, ver, crear, editar y eliminar productos contra ella. Para ver el estado de error de la app, detenga la API.
+
+El ejercicio Kotlin se ejecuta aparte: pegue el contenido de `kotlin/Product.kt` en el [Kotlin Playground](https://play.kotlinlang.org) y pulse **Run**.
 
 ## Flujo de entrega
 
@@ -71,19 +83,19 @@ Validación: `name` obligatorio (máximo 60 caracteres), `price` número mayor q
 ## Estructura
 
 ```text
-docs/                         plantillas del framework (se copian y se llenan)
+docs/                         plantillas del framework y documentos del proyecto
   features/ screens/ decisions/ api/ definition-of-done.md
-kotlin/Product.kt             ejercicio Kotlin (esqueleto)
+kotlin/Product.kt             ejercicio Kotlin resuelto
 server/
-  app.js                      createApp(): rutas de la API (stubs 501) + piezas ya dadas
+  app.js                      createApp(): las cinco rutas de la API + piezas ya dadas
   index.js                    arranque en el puerto 3000
   data/products.json          8 productos semilla
 src/app/                      arranque, rutas y tema
 src/features/products/        funcionalidad organizada por capas del framework
   data/                       config.ts (API_URL), api-error.ts (ApiError), products-api.ts (cliente fetch)
   domain/product.ts           tipos, formatCOP (dado), validateProduct, toProductView, filterProducts
-  presentation/               páginas, EmptyState (dado, modelo de props tipadas) y ProductCard
-  __tests__/                  test-server.ts (helper dado), pruebas de ejemplo y espacio para las suyas
+  presentation/               páginas, EmptyState (dado, modelo de props tipadas), ProductCard y StockBadge
+  __tests__/                  test-server.ts (helper dado), pruebas de ejemplo y pruebas del parcial
 ```
 
 Capas (framework, `01-architecture/layers-and-state`): `presentation` depende de `domain` y de `data`; `data` depende de `domain`; `domain` no depende de nada. El estado de cada pantalla puede vivir en la misma página con `useState` y `useEffect`.
@@ -101,6 +113,14 @@ Para concentrar el parcial en lo trabajado en clase, algunas piezas vienen hecha
 ## Entrega: secciones de este README
 
 Al terminar, agregue aquí abajo las dos secciones escritas en inglés (3 a 5 frases cada una) que indica la Parte 7 de [TODO.md](./TODO.md): **State management decision** y **API error handling**. También actualice este README con cualquier paso adicional necesario para ejecutar su versión.
+
+## State management decision
+
+Each screen keeps its own state with `useState`, loads its data with `useEffect`, and loads it again with `useIonViewWillEnter` when the user comes back to it. I chose this pattern because the app is small, the screens do not share data, and it is what we studied in class. Values that can be calculated, such as the "empty" and "no results" states, are not saved as state: they come from the products and the filters. If the app grows and several screens need the same data, the first step would be custom hooks, and the next one a store such as Context or Redux, recorded in a new ADR.
+
+## API error handling
+
+The API answers every error with the same format, `{ error, details }`, so the client can read all of them in the same way. The 404 handler from the starter answers when a route does not exist (the test with `PATCH /api/products/1` shows it), and the central error handler answers 500 when a route fails in an unexpected way. In the app, every failure becomes an `ApiError`: if `fetch` throws, it is a network error and its `status` is `null`; if the response is not successful, it keeps the status code and the `details` from the server. Then `getErrorMessage` turns the error into a clear message, for example "No encontramos ese producto." for a 404. The user sees an error state with a "Reintentar" or "Volver a la lista" button, and the form shows the server `details` above the fields.
 
 ---
 
