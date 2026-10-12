@@ -114,6 +114,14 @@ Para concentrar el parcial en lo trabajado en clase, algunas piezas vienen hecha
 
 Al terminar, agregue aquí abajo las dos secciones escritas en inglés (3 a 5 frases cada una) que indica la Parte 7 de [TODO.md](./TODO.md): **State management decision** y **API error handling**. También actualice este README con cualquier paso adicional necesario para ejecutar su versión.
 
+## State management decision
+
+Each screen keeps its own state with `useState`, loads its data with `useEffect`, and loads it again with `useIonViewWillEnter` when the user comes back to it. I chose this pattern because the app is small, the screens do not share data, and it is what we studied in class. Values that can be calculated, such as the "empty" and "no results" states, are not saved as state: they come from the products and the filters. If the app grows and several screens need the same data, the first step would be custom hooks, and the next one a store such as Context or Redux, recorded in a new ADR.
+
+## API error handling
+
+The API answers every error with the same format, `{ error, details }`, so the client can read all of them in the same way. The 404 handler from the starter answers when a route does not exist (the test with `PATCH /api/products/1` shows it), and the central error handler answers 500 when a route fails in an unexpected way. In the app, every failure becomes an `ApiError`: if `fetch` throws, it is a network error and its `status` is `null`; if the response is not successful, it keeps the status code and the `details` from the server. Then `getErrorMessage` turns the error into a clear message, for example "No encontramos ese producto." for a 404. The user sees an error state with a "Reintentar" or "Volver a la lista" button, and the form shows the server `details` above the fields.
+
 ---
 
 Las plantillas de `docs/` provienen del Mobile Governance Framework (licencia MIT; ver `docs/LICENSE-mobile-governance-framework.txt`).
