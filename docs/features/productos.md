@@ -50,9 +50,9 @@ file next to the component, never mixed with the component code.
   - List: `products`, `status` (`'loading'`, `'ready'` or `'error'`), `errorMessage`, `search`
     and `category`.
   - Detail: `product`, `status`, `errorMessage` and `isConfirmingDelete`.
-  - Form: `status` (for the load in edit mode), one variable per field (`name`, `price`,
-    `category`, `stock`), the validation errors by field, and the error message and `details`
-    sent by the server.
+  - Form: `status` and `errorMessage` (for the load in edit mode), one variable per field
+    (`name`, `price`, `category`, `stock`), the validation errors by field (`errors`), and the
+    message and `details` sent by the server when saving fails (`saveError`, `saveDetails`).
 - **Key transitions:**
   - `loading → ready` when the API answers.
   - `loading → error` when the request fails.

@@ -20,7 +20,7 @@ when the route has an `id`, the form is in edit mode and loads the data of that 
 |--------|-----------|-------|
 | Header | `IonHeader`, `IonToolbar`, `IonBackButton`, `IonTitle` | Title "Nuevo producto" in create mode and "Editar producto" in edit mode. The back button goes to `/productos`. |
 | Save error | Text and a list | Visible only when the request to save fails. Shows the error message and, when the server sends them, its `details`. |
-| Body | Three `IonInput` and four `IonButton` | Fields "Nombre", "Precio" and "Stock", and one button per category ("Bebidas", "Snacks", "Aseo" and "Hogar"). The selected category looks different from the others. Each field shows its validation message next to it. |
+| Body | Three `IonInput` and four `IonButton` | Fields "Nombre", "Precio" and "Stock", and one button per category ("Bebidas", "Snacks", "Aseo" and "Hogar") under the label "Categoría". The selected category looks different from the others. Each field shows its validation message next to it. |
 | Footer / CTA | `IonButton` | "Guardar". |
 
 ---
