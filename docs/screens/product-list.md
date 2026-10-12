@@ -57,11 +57,14 @@ button is always visible.
 
 ## Accessibility
 
-- [ ] All interactive elements have accessible labels: the search field has a label and every
+- [x] All interactive elements have accessible labels: the search field has a label and every
   button has visible text.
-- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: the screen uses the default size of the Ionic
-  buttons and items.
-- [ ] Text scales with OS font-size setting: the screen does not set fixed font sizes.
-- [ ] Contrast meets WCAG AA: the screen uses the starter theme and the default Ionic colors.
-- [ ] The stock status is never shown by color alone: the label text is always visible
+- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: not fully met. The product cards are `IonItem` rows,
+  which are 48 px high, but the buttons keep the Ionic size, which is smaller in the default
+  Material Design mode (about 36 px, and less for the small filter buttons).
+- [x] Text scales with OS font-size setting: the screen does not set fixed font sizes.
+- [ ] Contrast meets WCAG AA: not fully met. The texts use the default Ionic colors, but the
+  green of the starter theme (`#009540`) with white text has a contrast of about 3.9:1, below
+  the 4.5:1 that AA asks for small text. The theme comes with the starter and was not changed.
+- [x] The stock status is never shown by color alone: the label text is always visible
   ("Agotado", "Pocas unidades" or "Disponible").

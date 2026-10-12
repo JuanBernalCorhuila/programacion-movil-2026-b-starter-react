@@ -1,7 +1,7 @@
 # Feature — Products catalog
 
 - **Owner:** Juan Camilo Bernal Gordillo
-- **Status:** In progress
+- **Status:** Shipped
 - **Related stories:** N/A. The requirements come from the exam statement (Parcial práctico C2) and from `TODO.md`.
 
 ---
@@ -89,18 +89,18 @@ The list asks the API for all the products once and then filters them in memory 
 
 ## Edge cases & states
 
-- [ ] Loading: the list, the detail and the form in edit mode show a loading message while
+- [x] Loading: the list, the detail and the form in edit mode show a loading message while
   they wait for the API.
-- [ ] Empty: the API returns zero products.
-- [ ] No results: there are products, but the search text or the category matches none.
-- [ ] Error / retry: the list shows the error message and a "Reintentar" button.
-- [ ] Not found: the product does not exist (the API answers 404), so the detail and the form
+- [x] Empty: the API returns zero products.
+- [x] No results: there are products, but the search text or the category matches none.
+- [x] Error / retry: the list shows the error message and a "Reintentar" button.
+- [x] Not found: the product does not exist (the API answers 404), so the detail and the form
   in edit mode show "No encontramos ese producto."
-- [ ] Validation: the form shows a message next to each invalid field. If the server rejects
+- [x] Validation: the form shows a message next to each invalid field. If the server rejects
   the data (400), the form shows its message and its `details`.
-- [ ] Offline: there is no offline mode. If the API does not answer, the client throws a
+- [x] Offline: there is no offline mode. If the API does not answer, the client throws a
   network `ApiError` and the screen shows the error state.
-- [ ] Permission denied: N/A. The app has no login and no roles.
+- [x] Permission denied: N/A. The app has no login and no roles.
 
 ---
 

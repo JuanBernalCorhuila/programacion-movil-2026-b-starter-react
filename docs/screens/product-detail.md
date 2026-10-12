@@ -55,10 +55,12 @@ The route only accepts digits in `:id` (it is declared as `/productos/:id(\d+)` 
 
 ## Accessibility
 
-- [ ] All interactive elements have accessible labels: every button has visible text.
-- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: the screen uses the default size of the Ionic
-  buttons and items.
-- [ ] Text scales with OS font-size setting: the screen does not set fixed font sizes.
-- [ ] Contrast meets WCAG AA: the screen uses the starter theme and the default Ionic colors.
-- [ ] The stock status is never shown by color alone: the label text is always visible
+- [x] All interactive elements have accessible labels: every button has visible text.
+- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: not fully met. The buttons keep the Ionic size, which
+  is about 36 px high in the default Material Design mode.
+- [x] Text scales with OS font-size setting: the screen does not set fixed font sizes.
+- [ ] Contrast meets WCAG AA: not fully met. The texts use the default Ionic colors, but the
+  green of the starter theme (`#009540`) with white text has a contrast of about 3.9:1, below
+  the 4.5:1 that AA asks for small text. The theme comes with the starter and was not changed.
+- [x] The stock status is never shown by color alone: the label text is always visible
   ("Agotado", "Pocas unidades" or "Disponible").

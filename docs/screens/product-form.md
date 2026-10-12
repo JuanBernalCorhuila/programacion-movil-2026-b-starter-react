@@ -70,10 +70,13 @@ as the rules of the API (see [`product-entity.md`](../api/product-entity.md)).
 
 ## Accessibility
 
-- [ ] All interactive elements have accessible labels: every field has a label and every
+- [x] All interactive elements have accessible labels: every field has a label and every
   button has visible text.
-- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: the screen uses the default size of the Ionic
-  buttons and inputs.
-- [ ] Text scales with OS font-size setting: the screen does not set fixed font sizes.
-- [ ] Contrast meets WCAG AA: the screen uses the starter theme and the default Ionic colors.
-- [ ] An error is never shown by color alone: every invalid field has a text message.
+- [ ] Touch targets ≥ 44×44 pt / 48×48 dp: not fully met. The inputs are tall enough, but the
+  buttons keep the Ionic size, which is smaller in the default Material Design mode (about
+  36 px, and less for the small category buttons).
+- [x] Text scales with OS font-size setting: the screen does not set fixed font sizes.
+- [ ] Contrast meets WCAG AA: not fully met. The texts use the default Ionic colors, but the
+  green of the starter theme (`#009540`) with white text has a contrast of about 3.9:1, below
+  the 4.5:1 that AA asks for small text. The theme comes with the starter and was not changed.
+- [x] An error is never shown by color alone: every invalid field has a text message.
